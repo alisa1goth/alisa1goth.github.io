@@ -126,6 +126,16 @@
   }
   .ps.show { animation: pop .5s .15s cubic-bezier(.34,1.56,.64,1) both; opacity: 0; }
 
+  .hint {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: var(--accent); color: #fff0f6;
+    font-size: 14px; font-weight: 700; text-align: center;
+    padding: 12px 44px 12px 16px;
+    transform: translateY(-110%); transition: transform .35s;
+  }
+  .hint.on { transform: none; }
+  .hint .arrow { position: absolute; right: 14px; top: 8px; font-size: 20px; }
+
   .fadeout {
     position: fixed; inset: 0; z-index: 20; background: #000;
     opacity: 0; pointer-events: none; transition: opacity .45s;
@@ -158,6 +168,7 @@
   <div class="ps" id="ps">&hellip;you&rsquo;ll thank me later.</div>
 </div>
 
+<div class="hint" id="openHint">tap ⋯ and choose “Open in external browser” 🖤<span class="arrow">↗</span></div>
 <div class="fadeout" id="fadeout"></div>
 
 <script>
@@ -166,6 +177,23 @@
      Поменялся магазин → меняешь адрес в кавычках.
      ════════════════════════════════════════════════ */
   var STORE_URL = "https://onlyfans.com/alisa_tempt/c22";
+
+  // Выход из встроенного браузера Instagram в настоящий (там человек
+  // залогинен в OF). Android — Chrome через intent, iPhone — x-safari-схема;
+  // если Instagram её зарезал, через 1.5с показываем подсказку «⋯ → Open in browser».
+  (function escapeInApp() {
+    var ua = navigator.userAgent || "";
+    if (!/Instagram|FBAN|FBAV/i.test(ua)) return;
+    var bare = location.href.replace(/^https?:\/\//, "");
+    if (/Android/i.test(ua)) {
+      location.href = "intent://" + bare + "#Intent;scheme=https;package=com.android.chrome;end";
+    } else if (/iPhone|iPad|iPod/i.test(ua)) {
+      location.href = "x-safari-https://" + bare;
+    }
+    setTimeout(function () {
+      document.getElementById("openHint").classList.add("on");
+    }, 1500);
+  })();
 
   // Защита от ботов: пропускаем только настоящие клики живого человека.
   function realHuman(e) {
