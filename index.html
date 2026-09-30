@@ -27,8 +27,9 @@
     var ua = navigator.userAgent || "";
     var bare = TARGET.replace(/^https?:\/\//, "");
     if (!/Instagram|FBAN|FBAV/i.test(ua)) { location.replace(TARGET); return; }
-    if (/Android/i.test(ua)) {
-      location.href = "intent://" + bare + "#Intent;scheme=https;package=com.android.chrome;end";
+    // Android: встроенный браузер не пропускает intent:// и зависает — сразу открываем страницу как есть.
+    if (/Android/i.test(ua)) { location.replace(TARGET); return; }
+    if (false) {
     } else if (/iPhone|iPad|iPod/i.test(ua)) {
       location.href = "x-safari-https://" + bare;
       setTimeout(function () { if (!document.hidden) location.href = "googlechromes://" + bare; }, 800);
