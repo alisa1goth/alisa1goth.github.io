@@ -16,6 +16,11 @@ a.b,button{display:block;width:100%;box-sizing:border-box;margin:0 0 10px;paddin
 <button id="b4">4. window.open(_system)</button>
 <a class="b" id="b5" href="https://alisadiary.com/go/" target="_blank" rel="noopener">5. обычная ссылка (новая вкладка)</a>
 <a class="b" id="b6" href="#">6. intent с запасным адресом</a>
+<a class="b" id="b7" href="intent://alisadiary.com/go/#Intent;scheme=https;package=com.android.chrome;end">7. настоящая ссылка intent</a>
+<a class="b" id="b8" href="googlechrome://navigate?url=https%3A%2F%2Falisadiary.com%2Fgo%2F">8. настоящая ссылка googlechrome</a>
+<button id="b9">9. window.open(intent)</button>
+<button id="b10">10. android-app://</button>
+<button id="b11">11. window.open(_blank)</button>
 <div id="ua"></div>
 <script>
 var URL_ = "https://alisadiary.com/go/", bare = URL_.replace(/^https?:\/\//,"");
@@ -25,4 +30,7 @@ document.getElementById("b2").onclick = function(e){ e.preventDefault(); locatio
 document.getElementById("b3").onclick = function(e){ e.preventDefault(); location.href = "googlechrome://navigate?url="+encodeURIComponent(URL_); };
 document.getElementById("b4").onclick = function(){ window.open(URL_, "_system"); };
 document.getElementById("b6").onclick = function(e){ e.preventDefault(); location.href = "intent://"+bare+"#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url="+encodeURIComponent(URL_)+";end"; };
+document.getElementById("b9").onclick = function(){ window.open("intent://"+bare+"#Intent;scheme=https;package=com.android.chrome;end", "_blank"); };
+document.getElementById("b10").onclick = function(){ location.href = "android-app://com.android.chrome/https/"+bare; };
+document.getElementById("b11").onclick = function(){ window.open(URL_, "_blank"); };
 </script></body></html>
