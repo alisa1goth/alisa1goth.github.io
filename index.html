@@ -188,11 +188,15 @@
     if (/Android/i.test(ua)) {
       location.href = "intent://" + bare + "#Intent;scheme=https;package=com.android.chrome;end";
     } else if (/iPhone|iPad|iPod/i.test(ua)) {
+      // Попытка 1 — Safari; не ушли со страницы за 0.8с → попытка 2 — Chrome.
       location.href = "x-safari-https://" + bare;
+      setTimeout(function () {
+        if (!document.hidden) location.href = "googlechromes://" + bare;
+      }, 800);
     }
     setTimeout(function () {
-      document.getElementById("openHint").classList.add("on");
-    }, 1500);
+      if (!document.hidden) document.getElementById("openHint").classList.add("on");
+    }, 1800);
   })();
 
   // Защита от ботов: пропускаем только настоящие клики живого человека.
