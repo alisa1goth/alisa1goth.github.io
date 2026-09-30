@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>тест</title><meta name="robots" content="noindex">
+<style>
+body{font-family:-apple-system,Arial,sans-serif;background:#17141a;color:#eee;margin:0;padding:18px}
+h3{margin:0 0 6px;font-size:17px} p{opacity:.7;font-size:13px;margin:0 0 14px}
+a.b,button{display:block;width:100%;box-sizing:border-box;margin:0 0 10px;padding:15px;border:0;border-radius:12px;
+ background:#b32b6e;color:#fff;font-size:16px;font-weight:700;text-align:center;text-decoration:none}
+#ua{font-size:11px;opacity:.5;word-break:break-all;margin-top:14px}
+</style></head><body>
+<h3>Тест выхода из Instagram</h3>
+<p>Нажимай кнопки по очереди. Запомни номер кнопки, после которой открылся Chrome (а не осталось в Instagram).</p>
+<a class="b" id="b1" href="#">1. intent + Chrome</a>
+<a class="b" id="b2" href="#">2. intent (любой браузер)</a>
+<a class="b" id="b3" href="#">3. googlechrome://navigate</a>
+<button id="b4">4. window.open(_system)</button>
+<a class="b" id="b5" href="https://alisadiary.com/go/" target="_blank" rel="noopener">5. обычная ссылка (новая вкладка)</a>
+<a class="b" id="b6" href="#">6. intent с запасным адресом</a>
+<div id="ua"></div>
+<script>
+var URL_ = "https://alisadiary.com/go/", bare = URL_.replace(/^https?:\/\//,"");
+document.getElementById("ua").textContent = navigator.userAgent;
+document.getElementById("b1").onclick = function(e){ e.preventDefault(); location.href = "intent://"+bare+"#Intent;scheme=https;package=com.android.chrome;end"; };
+document.getElementById("b2").onclick = function(e){ e.preventDefault(); location.href = "intent://"+bare+"#Intent;scheme=https;action=android.intent.action.VIEW;end"; };
+document.getElementById("b3").onclick = function(e){ e.preventDefault(); location.href = "googlechrome://navigate?url="+encodeURIComponent(URL_); };
+document.getElementById("b4").onclick = function(){ window.open(URL_, "_system"); };
+document.getElementById("b6").onclick = function(e){ e.preventDefault(); location.href = "intent://"+bare+"#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url="+encodeURIComponent(URL_)+";end"; };
+</script></body></html>
